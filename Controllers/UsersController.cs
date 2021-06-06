@@ -31,7 +31,8 @@ namespace dot_net.Controllers
             return Ok(user);
         }
 
-        [HttpGet]
+        [AllowAnonymous]
+        [HttpGet()]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetAll();

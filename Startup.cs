@@ -4,8 +4,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication;
+using Pomelo.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
 using dot_net.Helpers;
 using dot_net.Services;
+using dot_net.Data;
+
 
 namespace dot_net
 {
@@ -23,6 +28,12 @@ namespace dot_net
         {
             services.AddCors();
             services.AddControllers();
+
+           
+            string dbConnectionString = Configuration.GetConnectionString("DBConnection");
+            services.AddDbContext<DataContext>(option => option.UseMySql(dbConnectionString, ServerVersion.AutoDetect(dbConnectionString)));
+
+           
 
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
