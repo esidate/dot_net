@@ -1,0 +1,13 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DBConnection": "server=localhost; port=3306; database=db_name; user=db_user; password=db_password; Persist Security Info=false; Connect Timeout=300"
+  }
+}

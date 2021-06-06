@@ -37,4 +37,4 @@ msbuild.wrn
 .vs/
 
 #env
-appsettings.json
+appsettings.Development.json
