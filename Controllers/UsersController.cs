@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using dot_net.Entities;
 using dot_net.Models;
 using dot_net.Services;
+
 
 namespace dot_net.Controllers
 {
@@ -31,12 +33,29 @@ namespace dot_net.Controllers
             return Ok(user);
         }
 
-        [AllowAnonymous]
+         [Authorize(Roles  = Role.Evaluator)]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            var users = await _userService.GetAll();
+            var users =  _userService.GetAll();
             return Ok(users);
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            // only allow evaluators to access other user records
+            var currentUserId = int.Parse(User.Identity.Name);
+            if (id != currentUserId && !User.IsInRole(Role.Evaluator))
+                return Forbid();
+
+            var user =  _userService.GetById(id);
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
+        
     }
 }
