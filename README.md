@@ -34,3 +34,11 @@ Project arch:
 ├── README.md
 └── Startup.cs
 ```
+
+Database Configuration:
+
+-Create a MySql database
+-Add database informations to `appsetting.json` exampl in `appsetting.copy.json`
+-in terminal, type `dotnet ef` to check if EF Core Command Line Tools is installed, if it's not, install it with the folllowing command :
+`dotnet tool install --global dotnet-ef`, replace `global` with `local` if you wish to install it locally.
+-Make migrations by executing the command `dotnet ef database update`.
