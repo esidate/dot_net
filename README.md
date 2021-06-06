@@ -45,10 +45,10 @@ Run the following commands in MySQL to create a DB, a user and grant permissions
 ```sql
 CREATE DATABASE dot_net;
 CREATE USER 'dot_net'@'localhost' IDENTIFIED BY 'Dot_net1234.';
-GRANT ALL PRIVILEGES ON dot_net . * TO 'newuser'@'localhost';
+GRANT ALL PRIVILEGES ON dot_net . * TO 'dot_net'@'localhost';
 ```
 
-Copy `appsettings.Development.json.example` and rename the copy `appsettings.Development.json`.  
+Copy `appsettings.Development.json.example` and name the copy `appsettings.Development.json`.  
 Fill `appsettings.Development.json` with the appropriate env vars.  
 Run `dotnet tool install dotnet-ef` to install EF.  
 Run migrations with `dotnet ef database update`.
