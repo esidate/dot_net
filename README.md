@@ -1,6 +1,9 @@
+# Dot Net School project
+
 Run server with `dotnet run`.
 
-Test Routes:  
+### Test Routes
+
 `curl --user test:test http://localhost:5000/users`
 
 ```
@@ -8,7 +11,7 @@ curl -X POST -H "Content-Type: application/json" \
  -d '{"username" :"test", "password" : "test"}' http://localhost:5000/users/authenticate
 ```
 
-Project arch:
+### Project arch
 
 ```
 ├── Controllers
@@ -35,13 +38,17 @@ Project arch:
 └── Startup.cs
 ```
 
-Database Configuration:
+### Database configuration
 
--Create a MySql database
+Run the following commands in MySQL to create a DB, a user and grant permissions:
 
--Add database informations to `appsetting.json` exampl in `appsetting.copy.json`
+```sql
+CREATE DATABASE dot_net;
+CREATE USER 'dot_net'@'localhost' IDENTIFIED BY 'Dot_net1234.';
+GRANT ALL PRIVILEGES ON dot_net . * TO 'newuser'@'localhost';
+```
 
--in terminal, type `dotnet ef` to check if EF Core Command Line Tools is installed, if it's not, install it with the folllowing command :  
-`dotnet tool install --global dotnet-ef`, replace `global` with `local` if you wish to install it locally.
-
--Make migrations by executing the command `dotnet ef database update`.
+Copy `appsettings.Development.json.example` and rename the copy `appsettings.Development.json`.  
+Fill `appsettings.Development.json` with the appropriate env vars.  
+Run `dotnet tool install dotnet-ef` to install EF.  
+Run migrations with `dotnet ef database update`.
