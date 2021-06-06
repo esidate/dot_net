@@ -32,7 +32,7 @@ namespace dot_net.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet()]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetAll();

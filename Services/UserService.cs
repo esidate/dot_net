@@ -17,7 +17,7 @@ namespace dot_net.Services
     {
         private DataContext _dataContext;
 
-        public UserService(Datacontext datacontext){
+        public UserService(DataContext datacontext){
             _dataContext= datacontext;
         }
 
