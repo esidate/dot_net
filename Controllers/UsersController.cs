@@ -33,11 +33,11 @@ namespace dot_net.Controllers
             return Ok(user);
         }
 
-         [Authorize(Roles  = Role.Evaluator)]
+        [Authorize(Roles  = Role.Evaluator)]
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var users =  _userService.GetAll();
+            var users =  await _userService.GetAll();
             return Ok(users);
         }
 
