@@ -57,5 +57,11 @@ namespace dot_net.Controllers
             return Ok(user);
         }
         
+        [HttpGet("evaluators")]
+        public async Task<IActionResult> GetEvaluators()
+        {
+            var users =  await _userService.GetEvaluators();
+            return Ok(users);
+        }
     }
 }
