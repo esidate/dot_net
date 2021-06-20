@@ -10,17 +10,14 @@ namespace dot_net.Services
     public interface IUserService
     {
         Task<User> Authenticate(string username, string password);
-        
         Task<IEnumerable<User>> GetAll();
         User GetById(int id);
+        Task<IEnumerable<User>> GetEvaluators();
     }
 
         public class UserService : IUserService
     {
         private DataContext _dataContext;
-        private User  _user; 
-    
-
         
         public UserService(DataContext datacontext){
             _dataContext= datacontext;
@@ -48,6 +45,11 @@ namespace dot_net.Services
         {
             // wrapped in "await Task.Run" to mimic fetching users from a db
             return await Task.Run(() => _dataContext.Users.ToList());
+        }
+
+         public async Task<IEnumerable<User>> GetEvaluators()
+        {
+            return await Task.Run(() => _dataContext.Users.Where(user => user.Role == Role.Evaluator ));
         }
     }
 }
