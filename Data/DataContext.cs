@@ -12,6 +12,7 @@ namespace dot_net.Data
             
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Candidature> Candidatures { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder){
             base.OnModelCreating(builder);
