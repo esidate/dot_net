@@ -32,11 +32,13 @@ namespace dot_net
             string dbConnectionString = Configuration.GetConnectionString("DBConnection");
             services.AddDbContext<DataContext>(option => option.UseMySql(dbConnectionString, ServerVersion.AutoDetect(dbConnectionString)));
 
-
-
-            // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.Requirements.Add(new RequireAdministratorRole()));
+            });
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();

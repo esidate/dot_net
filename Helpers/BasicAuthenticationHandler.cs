@@ -74,4 +74,16 @@ namespace dot_net.Helpers
             return base.HandleChallengeAsync(properties);
         }
     }
+
+    public class RequireAdministratorRole : AuthorizationHandler<RequireAdministratorRole>, IAuthorizationRequirement
+    {
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, RequireAdministratorRole requirement)
+        {
+            if (context.User.Identity.Name == "admin")
+            {
+                context.Succeed(requirement);
+            }
+            return Task.FromResult(0);
+        }
+    }
 }

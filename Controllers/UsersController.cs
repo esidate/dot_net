@@ -4,6 +4,7 @@ using dot_net.Entities;
 using dot_net.Models;
 using dot_net.Services;
 using dot_net.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dot_net.Controllers
 {
@@ -31,26 +32,26 @@ namespace dot_net.Controllers
             return Ok(user);
         }
 
+        [Authorize(Policy = "RequireAdministratorRole")]
         [HttpPost("add")]
         public async Task<IActionResult> AddEvaluator([FromBody] User User)
         {
-            // Needs role based authorization (admin)
             var userEntity = await _userService.AddEvaluator(User);
             return Ok(userEntity);
         }
 
+        [Authorize(Policy = "RequireAdministratorRole")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            // Needs role based authorization (admin)
             var users = await _userService.GetAll();
             return Ok(users);
         }
 
+        [Authorize(Policy = "RequireAdministratorRole")]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            // Needs role based authorization (admin)
             var user = _userService.GetById(id);
 
             if (user == null)
@@ -59,6 +60,7 @@ namespace dot_net.Controllers
             return Ok(user);
         }
 
+        [Authorize(Policy = "RequireAdministratorRole")]
         [HttpGet("evaluators")]
         public async Task<IActionResult> GetEvaluators()
         {
