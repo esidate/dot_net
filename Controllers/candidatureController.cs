@@ -16,12 +16,13 @@ namespace dot_net.Controllers
     [Consumes("application/json")]
     public class candidatureController : ControllerBase
     {
-        private IWebHostEnvironment _hostEnvironment;
+        private string justificativesPath;
         public candidatureController(IWebHostEnvironment environment)
         {
-            _hostEnvironment = environment;
+            justificativesPath =  environment.WebRootPath + "/justificatives/" ;
         }
 
+        [AllowAnonymous]
         [HttpPost("new")]
         public IActionResult addcandidature([FromBody] CandidatureModel model)
         {
@@ -37,21 +38,46 @@ namespace dot_net.Controllers
             // }
         }
         
+        [AllowAnonymous]
         [HttpPost("justificative")] 
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> UploadJustificative() {
+        public async Task<IActionResult> uploadJustificative() {
+            
             var postedFile = Request.Form.Files["justificative"];
             if (postedFile != null){ 
+                try{
                 string fileExtension = Path.GetExtension(postedFile.FileName);
                 Guid guid = Guid.NewGuid(); 
                 string fileName = guid + fileExtension; 
-                string filePath = Path.Combine(_hostEnvironment.WebRootPath, "justificatives/" + fileName);
+                string filePath = Path.Combine(justificativesPath + fileName);
                 using (var stream = new FileStream(filePath, FileMode.Create)){ 
                     await postedFile.CopyToAsync(stream);
                     return Ok(fileName);
+                }    
+                }catch{
+                    return StatusCode(500);
                 }
             }      
             return StatusCode(400);
+        }
+
+        [AllowAnonymous]
+        [HttpDelete("justificative")] 
+        [Consumes("application/json")]
+        public IActionResult deleteJustificative([FromBody] JustificativeModel model  ) {
+            string filePath = Path.Combine(justificativesPath, model.fileName);
+            try{
+                if(System.IO.File.Exists(filePath)){
+                    System.IO.File.Delete(filePath);
+                    return Ok();
+                }
+                else{
+                    return StatusCode(400);
+                }
+            }catch{
+                return StatusCode(500);
+            }
+
         }
     }
 }
