@@ -163,6 +163,12 @@ Get candidature by id
 curl http://localhost:5000/candidature/{id}
 ```
 
+Get all candidature ids
+
+```
+curl http://localhost:5000/candidature/all
+```
+
 Update candidature
 
 ```

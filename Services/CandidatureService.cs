@@ -58,7 +58,7 @@ namespace dot_net.Services
 
         public async Task<CandidatureIdsModel> getAllIds()
         {
-            IEnumerable<int> idsList = await Task.Run(() => _dataContext.Candidatures.Select(p => p.Id).ToList());
+            IEnumerable<int> idsList = await Task.Run(() => _dataContext.Candidatures.Where(candid => candid.Archived == 0).Select(p => p.Id).ToList());
             CandidatureIdsModel candidatureIds = new CandidatureIdsModel() 
             {
                 ids = idsList
