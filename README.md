@@ -4,12 +4,31 @@
 
 ```
 .
+├── appsettings.Development.json
 ├── appsettings.Development.json.example
 ├── appsettings.json
 ├── bin
 │   └── Debug
 │       └── net5.0
-│           └── ref
+│           ├── appsettings.Development.json
+│           ├── appsettings.json
+│           ├── dot_net
+│           ├── dot_net.deps.json
+│           ├── dot_net.dll
+│           ├── dot_net.pdb
+│           ├── dot_net.runtimeconfig.dev.json
+│           ├── dot_net.runtimeconfig.json
+│           ├── Humanizer.dll
+│           ├── Microsoft.EntityFrameworkCore.Abstractions.dll
+│           ├── Microsoft.EntityFrameworkCore.Design.dll
+│           ├── Microsoft.EntityFrameworkCore.dll
+│           ├── Microsoft.EntityFrameworkCore.Relational.dll
+│           ├── Microsoft.Extensions.DependencyInjection.dll
+│           ├── MySqlConnector.dll
+│           ├── Pomelo.EntityFrameworkCore.MySql.dll
+│           ├── ref
+│           │   └── dot_net.dll
+│           └── System.Diagnostics.DiagnosticSource.dll
 ├── Controllers
 │   ├── CandidatureController.cs
 │   └── UsersController.cs
@@ -17,14 +36,18 @@
 │   └── DataContext.cs
 ├── dot_net.csproj
 ├── Entities
+│   ├── Candidature.cs
 │   ├── Role.cs
 │   └── User.cs
 ├── Helpers
 │   ├── BasicAuthenticationHandler.cs
 │   └── ExtensionMethods.cs
+├── Insomnia_2021-06-21
 ├── Migrations
 │   ├── 20210606122325_InitialCreate.cs
 │   ├── 20210606122325_InitialCreate.Designer.cs
+│   ├── 20210621102334_addCandidatureTable.cs
+│   ├── 20210621102334_addCandidatureTable.Designer.cs
 │   └── DataContextModelSnapshot.cs
 ├── Models
 │   ├── AuthenticateModel.cs
@@ -32,14 +55,34 @@
 │   ├── ErrorViewModel.cs
 │   └── JustificativeModel.cs
 ├── obj
-│   └── Debug
-│       └── net5.0
-│           ├── dot_net.AssemblyInfo.cs
-│           ├── dot_net.AssemblyInfoInputs.cache
-│           ├── dot_net.csproj.AssemblyReference.cache
-│           ├── dot_net.GeneratedMSBuildEditorConfig.editorconfig
-│           ├── project.razor.json
-│           └── ref
+│   ├── Debug
+│   │   └── net5.0
+│   │       ├── apphost
+│   │       ├── dot_net.AssemblyInfo.cs
+│   │       ├── dot_net.AssemblyInfoInputs.cache
+│   │       ├── dot_net.assets.cache
+│   │       ├── dot_net.csproj.AssemblyReference.cache
+│   │       ├── dot_net.csproj.CopyComplete
+│   │       ├── dot_net.csproj.CoreCompileInputs.cache
+│   │       ├── dot_net.csproj.FileListAbsolute.txt
+│   │       ├── dot_net.dll
+│   │       ├── dot_net.GeneratedMSBuildEditorConfig.editorconfig
+│   │       ├── dot_net.genruntimeconfig.cache
+│   │       ├── dot_net.MvcApplicationPartsAssemblyInfo.cache
+│   │       ├── dot_net.pdb
+│   │       ├── dot_net.RazorTargetAssemblyInfo.cache
+│   │       ├── project.razor.json
+│   │       ├── ref
+│   │       │   └── dot_net.dll
+│   │       └── staticwebassets
+│   │           ├── dot_net.StaticWebAssets.Manifest.cache
+│   │           └── dot_net.StaticWebAssets.xml
+│   ├── dot_net.csproj.EntityFrameworkCore.targets
+│   ├── dot_net.csproj.nuget.dgspec.json
+│   ├── dot_net.csproj.nuget.g.props
+│   ├── dot_net.csproj.nuget.g.targets
+│   ├── project.assets.json
+│   └── project.nuget.cache
 ├── Program.cs
 ├── Properties
 │   └── launchSettings.json
@@ -47,6 +90,7 @@
 ├── Requests
 │   └── CreateUserRequest.cs
 ├── Services
+│   ├── CandidatureService.cs
 │   └── UserService.cs
 ├── Startup.cs
 └── wwwroot
