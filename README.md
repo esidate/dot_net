@@ -11,7 +11,7 @@
 │       └── net5.0
 │           └── ref
 ├── Controllers
-│   ├── candidatureController.cs
+│   ├── CandidatureController.cs
 │   └── UsersController.cs
 ├── Data
 │   └── DataContext.cs
@@ -30,7 +30,7 @@
 │   ├── AuthenticateModel.cs
 │   ├── CandidatrueModel.cs
 │   ├── ErrorViewModel.cs
-│   └── justificativeModel.cs
+│   └── JustificativeModel.cs
 ├── obj
 │   └── Debug
 │       └── net5.0

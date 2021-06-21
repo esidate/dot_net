@@ -12,10 +12,10 @@ namespace dot_net.Controllers
     [ApiController]
     [Route("[controller]")]
     [Consumes("application/json")]
-    public class candidatureController : ControllerBase
+    public class CandidatureController : ControllerBase
     {
         private string justificativesPath;
-        public candidatureController(IWebHostEnvironment environment)
+        public CandidatureController(IWebHostEnvironment environment)
         {
             justificativesPath = environment.WebRootPath + "/justificatives/";
         }
