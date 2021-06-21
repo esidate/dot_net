@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace dot_net.Entities
 {
     public class User
@@ -9,8 +7,6 @@ namespace dot_net.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Role { get; set; }
-
-        [JsonIgnore]
         public string Password { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace dot_net.Services
         Task<IEnumerable<User>> GetAll();
         Task<IEnumerable<User>> GetEvaluators();
         User GetById(int id);
+        Task<User> AddEvaluator(User User);
     }
 
     public class UserService : IUserService
@@ -41,6 +42,7 @@ namespace dot_net.Services
             var user = _dataContext.Users.FirstOrDefault(x => x.Id == id);
             return user.WithoutPassword();
         }
+
         public async Task<IEnumerable<User>> GetAll()
         {
             // wrapped in "await Task.Run" to mimic fetching users from a db
@@ -51,6 +53,25 @@ namespace dot_net.Services
         {
             // wrapped in "await Task.Run" to mimic fetching users from a db
             return await Task.Run(() => _dataContext.Users.Where(user => user.Role == Role.Evaluator));
+        }
+
+        public async Task<User> AddEvaluator(User User)
+        {
+            User.Role = "Evaluator";
+            User.Password = GeneratePassword(10);
+            var addUser = await _dataContext.Users.AddAsync(User);
+            _dataContext.SaveChanges();
+            return addUser.Entity;
+        }
+
+        public string GeneratePassword(int length)
+        {
+            using (System.Security.Cryptography.RNGCryptoServiceProvider cryptRNG = new System.Security.Cryptography.RNGCryptoServiceProvider())
+            {
+                byte[] tokenBuffer = new byte[length];
+                cryptRNG.GetBytes(tokenBuffer);
+                return System.Convert.ToBase64String(tokenBuffer);
+            }
         }
     }
 }

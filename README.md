@@ -74,7 +74,34 @@ Run server with `dotnet run --environment "Development"`.
 
 `curl --user test:test http://localhost:5000/users`
 
+Authentication
+
 ```
 curl -X POST -H "Content-Type: application/json" \
  -d '{"username" :"test", "password" : "test"}' http://localhost:5000/users/authenticate
+```
+
+Get all users
+
+```
+curl -X GET http://localhost:5000/users
+```
+
+Get all evaluators
+
+```
+curl -X GET http://localhost:5000/users/evaluators
+```
+
+Get evaluator by ID
+
+```
+curl -X GET http://localhost:5000/users/1
+```
+
+Add evaluator
+
+```
+curl -X POST -H "Content-Type: application/json" \
+ -d '{ "Username" : "bruh", "FirstName" : "ayoo", "LastName" : "bruh", "test": "hey" }' http://localhost:5000/users/add
 ```

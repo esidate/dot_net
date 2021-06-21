@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using dot_net.Entities;
 using dot_net.Models;
 using dot_net.Services;
-using dot_net.Requests;
 using dot_net.Data;
 
 namespace dot_net.Controllers
@@ -16,14 +14,12 @@ namespace dot_net.Controllers
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
-        private DataContext _dbContext;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, DataContext dataContext)
         {
             _userService = userService;
         }
 
-        [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
         {
@@ -34,27 +30,19 @@ namespace dot_net.Controllers
 
             return Ok(user);
         }
-        [AllowAnonymous]
-        [HttpPost]
-        public IActionResult Post([FromBody] CreateUserRequest request)
-        {
-            var user = new User
-            {
-                Username = request.Username,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Role = request.Role
-            };
-            _dbContext.Users.Add(user);
-            _dbContext.SaveChanges();
-            return Ok();
 
+        [HttpPost("add")]
+        public async Task<IActionResult> AddEvaluator([FromBody] User User)
+        {
+            // Needs role based authorization (admin)
+            var userEntity = await _userService.AddEvaluator(User);
+            return Ok(userEntity);
         }
 
-        [Authorize(Roles = Role.Evaluator)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            // Needs role based authorization (admin)
             var users = await _userService.GetAll();
             return Ok(users);
         }
@@ -62,11 +50,7 @@ namespace dot_net.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            // only allow evaluators to access other user records
-            var currentUserId = int.Parse(User.Identity.Name);
-            if (id != currentUserId && !User.IsInRole(Role.Evaluator))
-                return Forbid();
-
+            // Needs role based authorization (admin)
             var user = _userService.GetById(id);
 
             if (user == null)

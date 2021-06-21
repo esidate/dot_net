@@ -6,4 +6,3 @@ namespace dot_net.Entities
         public const string Candidate = "Candidate";
     }
 }
-
