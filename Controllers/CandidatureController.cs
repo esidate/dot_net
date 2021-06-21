@@ -76,7 +76,13 @@ namespace dot_net.Controllers
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await postedFile.CopyToAsync(stream);
-                    return Ok(fileName);
+
+                    var response = new
+                    {
+                        fileName = fileName
+                    };
+
+                    return Ok(response);
                 }
             }
             return StatusCode(400);
