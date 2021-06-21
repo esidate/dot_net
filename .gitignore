@@ -38,3 +38,6 @@ msbuild.wrn
 
 #env
 appsettings.Development.json
+
+wwwroot/justificatives/*
+!wwwroot/justificatives/.gitkeep
