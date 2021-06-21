@@ -38,6 +38,7 @@ namespace dot_net
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdministratorRole", policy => policy.Requirements.Add(new RequireAdministratorRole()));
+                options.AddPolicy("RequireAdminOrEvaluatorRole", policy => policy.Requirements.Add(new RequireAdminOrEvaluatorRole()));
             });
 
             // configure DI for application services

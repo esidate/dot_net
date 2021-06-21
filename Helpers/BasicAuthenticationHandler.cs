@@ -60,6 +60,7 @@ namespace dot_net.Helpers
             var claims = new[] {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role),
             };
             var identity = new ClaimsIdentity(claims, Scheme.Name);
             var principal = new ClaimsPrincipal(identity);
@@ -79,7 +80,18 @@ namespace dot_net.Helpers
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, RequireAdministratorRole requirement)
         {
-            if (context.User.Identity.Name == "admin")
+            if (context.User.IsInRole ("Admin"))
+            {
+                context.Succeed(requirement);
+            }
+            return Task.FromResult(0);
+        }
+    }
+    public class RequireAdminOrEvaluatorRole : AuthorizationHandler<RequireAdminOrEvaluatorRole>, IAuthorizationRequirement
+    {
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, RequireAdminOrEvaluatorRole requirement)
+        {
+            if (context.User.IsInRole("Admin") || context.User.IsInRole("Evaluator"))
             {
                 context.Succeed(requirement);
             }
