@@ -1,20 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using dot_net.Entities;
 using dot_net.Models;
 using dot_net.Services;
+using dot_net.Requests;
+using dot_net.Data;
+
 
 
 namespace dot_net.Controllers
 {
-    [Authorize]
+    
     [ApiController]
     [Route("[controller]")]
     [Consumes("application/json")]
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
+        private DataContext _dbContext;
 
         public UsersController(IUserService userService)
         {
@@ -31,6 +36,22 @@ namespace dot_net.Controllers
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             return Ok(user);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult Post ([FromBody]CreateUserRequest request)
+        {
+            var user = new User
+            {
+                Username = request.Username,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Role = request.Role
+            };
+            _dbContext.Users.Add(user);
+            _dbContext.SaveChanges();
+            return Ok();
+
         }
 
         [Authorize(Roles  = Role.Evaluator)]

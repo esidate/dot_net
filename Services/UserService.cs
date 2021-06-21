@@ -13,14 +13,16 @@ namespace dot_net.Services
         Task<IEnumerable<User>> GetAll();
         Task<IEnumerable<User>> GetEvaluators();
         User GetById(int id);
+        Task<IEnumerable<User>> GetEvaluators();
     }
 
-    public class UserService : IUserService
+        public class UserService : IUserService
     {
         private DataContext _dataContext;
-
+        
         public UserService(DataContext datacontext){
             _dataContext= datacontext;
+            
         }
 
         public async Task<User> Authenticate(string username, string password)
@@ -33,13 +35,13 @@ namespace dot_net.Services
             // authentication successful so return user details
             return user;
         }
-
+         
         public User GetById(int id) 
         {
-            var user = _dataContext.Users.Find(id);
+            var user = _dataContext.Users.FirstOrDefault(x => x.Id == id);
             return user.WithoutPassword();
         }
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<User>> GetAll()   
         {
             // wrapped in "await Task.Run" to mimic fetching users from a db
             return await Task.Run(() => _dataContext.Users.ToList());
