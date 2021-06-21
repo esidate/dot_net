@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using dot_net.Entities;
 using dot_net.Data;
+using dot_net.Models;
+
 
 namespace dot_net.Services
 {
@@ -10,8 +13,8 @@ namespace dot_net.Services
         void addCandidature(string jsonContent);
         void archiveCandidature(int id);
         Candidature updateCandidature(int id, string candidatureJson);
-        Candidature GetById(int id);
-        IEnumerable<Candidature> GetAll();
+        Candidature getById(int id);
+        Task<CandidatureIdsModel> getAllIds();
     }
 
     public class CandidatureService : ICandidatureService
@@ -32,7 +35,7 @@ namespace dot_net.Services
             _dataContext.SaveChanges();
         }
 
-        public Candidature GetById(int id)
+        public Candidature getById(int id)
         {
             var candidature = _dataContext.Candidatures.FirstOrDefault(x => x.Id == id);
             return candidature;
@@ -53,9 +56,14 @@ namespace dot_net.Services
             _dataContext.SaveChanges();
         }
 
-        public IEnumerable<Candidature> GetAll()
+        public async Task<CandidatureIdsModel> getAllIds()
         {
-            return _dataContext.Candidatures.ToList();
+            IEnumerable<int> idsList = await Task.Run(() => _dataContext.Candidatures.Select(p => p.Id).ToList());
+            CandidatureIdsModel candidatureIds = new CandidatureIdsModel() 
+            {
+                ids = idsList
+            };
+            return candidatureIds;
         }
 
     }

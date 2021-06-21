@@ -34,8 +34,16 @@ namespace dot_net.Controllers
         [HttpGet("{id}")]
         public IActionResult getById(int id)
         {
-            Candidature candidature = _candidatureService.GetById(id);
+            Candidature candidature = _candidatureService.getById(id);
             return Ok(candidature);
+        }
+
+        [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllIds()
+        {
+            CandidatureIdsModel ids = await _candidatureService.getAllIds();
+            return Ok(ids);
         }
 
         [HttpPost("update")]
@@ -45,7 +53,7 @@ namespace dot_net.Controllers
             return Ok(candidature);
         }
 
-        [Authorize]
+        [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
         [HttpPost("archive/{id}")]
         public IActionResult archive(int id)
         {
