@@ -171,23 +171,19 @@ curl -X POST -H "Content-Type: application/json" \
 Archive candidature
 
 ```
- curl --request POST \
-  --url http://localhost:5000/candidature/archive/{id} \
-  --header 'Authorization: Basic <username:password as base64string>='
+ curl -X POST -u eval1:eval1 http://localhost:5000/candidature/archive/{id}
 ```
 
 Upload justificative
 
-curl --request POST \
- --url http://localhost:5000/candidature/justificative \
- --header 'Content-Type: multipart/form-data; boundary=---011000010111000001101001' \
- --form justificative=@/PATH_TO_FILE
+```
+curl -X POST http://localhost:5000/candidature/justificative \
+ -H 'Content-Type: multipart/form-data; boundary=---011000010111000001101001' --form justificative=@/PATH_TO_FILE
+```
 
 Delete justificative
 
-curl --request DELETE \
- --url http://localhost:5000/candidature/justificative \
- --header 'Content-Type: application/json' \
- --data '{
-"fileName": "FILE_NAME"
-}'
+```
+curl -X DELETE http://localhost:5000/candidature/justificative \
+    -H 'Content-Type: application/json' -d '{"fileName": "FILE_NAME"}'
+```
