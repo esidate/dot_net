@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using dot_net.Entities;
@@ -8,11 +7,9 @@ using dot_net.Services;
 using dot_net.Requests;
 using dot_net.Data;
 
-
-
 namespace dot_net.Controllers
 {
-    
+
     [ApiController]
     [Route("[controller]")]
     [Consumes("application/json")]
@@ -39,7 +36,7 @@ namespace dot_net.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Post ([FromBody]CreateUserRequest request)
+        public IActionResult Post([FromBody] CreateUserRequest request)
         {
             var user = new User
             {
@@ -54,11 +51,11 @@ namespace dot_net.Controllers
 
         }
 
-        [Authorize(Roles  = Role.Evaluator)]
+        [Authorize(Roles = Role.Evaluator)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var users =  await _userService.GetAll();
+            var users = await _userService.GetAll();
             return Ok(users);
         }
 
@@ -70,18 +67,18 @@ namespace dot_net.Controllers
             if (id != currentUserId && !User.IsInRole(Role.Evaluator))
                 return Forbid();
 
-            var user =  _userService.GetById(id);
+            var user = _userService.GetById(id);
 
             if (user == null)
                 return NotFound();
 
             return Ok(user);
         }
-        
+
         [HttpGet("evaluators")]
         public async Task<IActionResult> GetEvaluators()
         {
-            var users =  await _userService.GetEvaluators();
+            var users = await _userService.GetEvaluators();
             return Ok(users);
         }
     }
