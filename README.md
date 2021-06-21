@@ -1,7 +1,5 @@
 # Dot Net School project
 
-Run server with `dotnet run`.
-
 ### Test Routes
 
 `curl --user test:test http://localhost:5000/users`
@@ -50,5 +48,7 @@ GRANT ALL PRIVILEGES ON dot_net . * TO 'dot_net'@'localhost';
 
 Copy `appsettings.Development.json.example` and name the copy `appsettings.Development.json`.  
 Fill `appsettings.Development.json` with the appropriate env vars.  
+Don't touch `appsettings.json`...  
 Run `dotnet tool install dotnet-ef` to install EF.  
-Run migrations with `dotnet ef database update`.
+Run migrations with `dotnet ef database update`.  
+Run server with `dotnet run --environment "Development"`.
