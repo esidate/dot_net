@@ -5,38 +5,54 @@ using dot_net.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System;
+using dot_net.Entities;
+using dot_net.Services;
 
 namespace dot_net.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     [Consumes("application/json")]
     public class CandidatureController : ControllerBase
     {
         private string justificativesPath;
-        public CandidatureController(IWebHostEnvironment environment)
+        private ICandidatureService _candidatureService;
+        public CandidatureController(IWebHostEnvironment environment, ICandidatureService candidatureService)
         {
+            _candidatureService = candidatureService;
             justificativesPath = environment.WebRootPath + "/justificatives/";
         }
 
-        [AllowAnonymous]
         [HttpPost("new")]
         public IActionResult addCandidature([FromBody] CandidatureModel model)
         {
-            // temporary
-            string json = System.Text.Json.JsonSerializer.Serialize(model);
+            // string json = System.Text.Json.JsonSerializer.Serialize(model.candidature);
+            _candidatureService.addCandidature(model.candidature);
             return Ok();
-            // string filePath= Path.Combine(_hostEnvironment.WebRootPath, "candidatures/"+ model.firstname + model.lastname + ".json");
-            // try{
-            //     System.IO.File.WriteAllText(filePath, json);
-            //     return Ok();
-            // }catch{
-            //     return StatusCode(500);
-            // }
         }
 
-        [AllowAnonymous]
+        [HttpGet("{id}")]
+        public IActionResult getById(int id)
+        {
+            Candidature candidature = _candidatureService.GetById(id);
+            return Ok(candidature);
+        }
+
+        [HttpPost("update")]
+        public IActionResult updateCandidature([FromBody] CandidatureModel model)
+        {
+            Candidature candidature = _candidatureService.updateCandidature(model.id, model.candidature);
+            return Ok(candidature);
+        }
+
+        [Authorize]
+        [HttpPost("archive/{id}")]
+        public IActionResult archive(int id)
+        {
+            _candidatureService.archiveCandidature(id);
+            return Ok();
+        }
+
         [HttpPost("justificative")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> uploadJustificative()
@@ -65,7 +81,6 @@ namespace dot_net.Controllers
             return StatusCode(400);
         }
 
-        [AllowAnonymous]
         [HttpDelete("justificative")]
         [Consumes("application/json")]
         public IActionResult deleteJustificative([FromBody] JustificativeModel model)
