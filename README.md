@@ -149,3 +149,45 @@ Add evaluator
 curl -X POST -u admin:admin -H "Content-Type: application/json" \
  -d '{ "Username" : "bruh", "FirstName" : "ayoo", "LastName" : "bruh", "test": "hey" }' http://localhost:5000/users/add
 ```
+
+Add candidature
+
+curl -X POST -H "Content-Type: application/json" \
+ -d '{ "candidature" : "{\"test\":\"test\",\"test\":\"test\"}" }' http://localhost:5000/candidature/new
+
+Get candidature by id
+
+```
+curl http://localhost:5000/candidature/{id}
+```
+
+Update candidature
+
+```
+curl -X POST -H "Content-Type: application/json" \
+ -d '{ "id" : "1" , "candidature" : "{\"test\":\"test\",\"test\":\"test\"}" }' http://localhost:5000/candidature/update
+```
+
+Archive candidature
+
+```
+ curl --request POST \
+  --url http://localhost:5000/candidature/archive/{id} \
+  --header 'Authorization: Basic <username:password as base64string>='
+```
+
+Upload justificative
+
+curl --request POST \
+ --url http://localhost:5000/candidature/justificative \
+ --header 'Content-Type: multipart/form-data; boundary=---011000010111000001101001' \
+ --form justificative=@/PATH_TO_FILE
+
+Delete justificative
+
+curl --request DELETE \
+ --url http://localhost:5000/candidature/justificative \
+ --header 'Content-Type: application/json' \
+ --data '{
+"fileName": "FILE_NAME"
+}'
