@@ -152,8 +152,10 @@ curl -X POST -u admin:admin -H "Content-Type: application/json" \
 
 Add candidature
 
+```
 curl -X POST -H "Content-Type: application/json" \
  -d '{ "candidature" : "{\"test\":\"test\",\"test\":\"test\"}" }' http://localhost:5000/candidature/new
+```
 
 Get candidature by id
 
