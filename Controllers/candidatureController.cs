@@ -24,7 +24,7 @@ namespace dot_net.Controllers
 
         [AllowAnonymous]
         [HttpPost("new")]
-        public IActionResult addcandidature([FromBody] CandidatureModel model)
+        public IActionResult addCandidature([FromBody] CandidatureModel model)
         {
             // temporary
             string json = System.Text.Json.JsonSerializer.Serialize(model);

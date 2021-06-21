@@ -13,7 +13,6 @@ namespace dot_net.Services
         Task<IEnumerable<User>> GetAll();
         Task<IEnumerable<User>> GetEvaluators();
         User GetById(int id);
-        Task<IEnumerable<User>> GetEvaluators();
     }
 
         public class UserService : IUserService
