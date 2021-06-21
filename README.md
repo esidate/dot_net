@@ -1,39 +1,56 @@
 # Dot Net School project
 
-### Test Routes
-
-`curl --user test:test http://localhost:5000/users`
-
-```
-curl -X POST -H "Content-Type: application/json" \
- -d '{"username" :"test", "password" : "test"}' http://localhost:5000/users/authenticate
-```
-
 ### Project arch
 
 ```
+.
+├── appsettings.Development.json.example
+├── appsettings.json
+├── bin
+│   └── Debug
+│       └── net5.0
+│           └── ref
 ├── Controllers
+│   ├── candidatureController.cs
 │   └── UsersController.cs
+├── Data
+│   └── DataContext.cs
+├── dot_net.csproj
 ├── Entities
+│   ├── Role.cs
 │   └── User.cs
 ├── Helpers
-│   └── BasicAuthenticationHandler.cs
+│   ├── BasicAuthenticationHandler.cs
+│   └── ExtensionMethods.cs
+├── Migrations
+│   ├── 20210606122325_InitialCreate.cs
+│   ├── 20210606122325_InitialCreate.Designer.cs
+│   └── DataContextModelSnapshot.cs
 ├── Models
 │   ├── AuthenticateModel.cs
-│   └── ErrorViewModel.cs
+│   ├── CandidatrueModel.cs
+│   ├── ErrorViewModel.cs
+│   └── justificativeModel.cs
+├── obj
+│   └── Debug
+│       └── net5.0
+│           ├── dot_net.AssemblyInfo.cs
+│           ├── dot_net.AssemblyInfoInputs.cache
+│           ├── dot_net.csproj.AssemblyReference.cache
+│           ├── dot_net.GeneratedMSBuildEditorConfig.editorconfig
+│           ├── project.razor.json
+│           └── ref
+├── Program.cs
 ├── Properties
 │   └── launchSettings.json
+├── README.md
+├── Requests
+│   └── CreateUserRequest.cs
 ├── Services
 │   └── UserService.cs
-├── Views
-├── wwwroot
-│   └── favicon.ico
-├── appsettings.Development.json
-├── appsettings.json
-├── dot_net.csproj
-├── Program.cs
-├── README.md
-└── Startup.cs
+├── Startup.cs
+└── wwwroot
+    └── favicon.ico
 ```
 
 ### Database configuration
@@ -52,3 +69,12 @@ Don't touch `appsettings.json`...
 Run `dotnet tool install dotnet-ef` to install EF.  
 Run migrations with `dotnet ef database update`.  
 Run server with `dotnet run --environment "Development"`.
+
+### Test Routes
+
+`curl --user test:test http://localhost:5000/users`
+
+```
+curl -X POST -H "Content-Type: application/json" \
+ -d '{"username" :"test", "password" : "test"}' http://localhost:5000/users/authenticate
+```
