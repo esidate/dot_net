@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
-using dot_net.Entities;
 using dot_net.Models;
-using dot_net.Services;
-using System.Text.Json;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System;
+
 namespace dot_net.Controllers
 {
     [ApiController]
@@ -55,39 +53,51 @@ namespace dot_net.Controllers
 
         [HttpPost("justificative")] 
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> uploadJustificative() {
-            
+        public async Task<IActionResult> uploadJustificative()
+        {
+
             var postedFile = Request.Form.Files["justificative"];
-            if (postedFile != null){ 
-                try{
-                string fileExtension = Path.GetExtension(postedFile.FileName);
-                Guid guid = Guid.NewGuid(); 
-                string fileName = guid + fileExtension; 
-                string filePath = Path.Combine(justificativesPath + fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create)){ 
-                    await postedFile.CopyToAsync(stream);
-                    return Ok(fileName);
-                }    
-                }catch{
+            if (postedFile != null)
+            {
+                try
+                {
+                    string fileExtension = Path.GetExtension(postedFile.FileName);
+                    Guid guid = Guid.NewGuid();
+                    string fileName = guid + fileExtension;
+                    string filePath = Path.Combine(justificativesPath + fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await postedFile.CopyToAsync(stream);
+                        return Ok(fileName);
+                    }
+                }
+                catch
+                {
                     return StatusCode(500);
                 }
-            }      
+            }
             return StatusCode(400);
         }
 
         [HttpDelete("justificative")] 
         [Consumes("application/json")]
-        public IActionResult deleteJustificative([FromBody] JustificativeModel model  ) {
+        public IActionResult deleteJustificative([FromBody] JustificativeModel model)
+        {
             string filePath = Path.Combine(justificativesPath, model.fileName);
-            try{
-                if(System.IO.File.Exists(filePath)){
+            try
+            {
+                if (System.IO.File.Exists(filePath))
+                {
                     System.IO.File.Delete(filePath);
                     return Ok();
                 }
-                else{
+                else
+                {
                     return StatusCode(400);
                 }
-            }catch{
+            }
+            catch
+            {
                 return StatusCode(500);
             }
 

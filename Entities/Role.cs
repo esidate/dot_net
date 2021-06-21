@@ -1,4 +1,3 @@
-
 namespace dot_net.Entities
 {
     public class Role
