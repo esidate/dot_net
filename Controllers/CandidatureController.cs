@@ -26,40 +26,47 @@ namespace dot_net.Controllers
         [HttpPost("new")]
         public IActionResult addCandidature([FromBody] CandidatureModel model)
         {
-            // string json = System.Text.Json.JsonSerializer.Serialize(model.candidature);
-            _candidatureService.addCandidature(model.candidature);
-            return Ok();
+            CandidatureModel candidature = _candidatureService.addCandidature(model.candidature);
+            return Ok(candidature);
         }
 
         [HttpGet("{id}")]
         public IActionResult getById(int id)
         {
             Candidature candidature = _candidatureService.getById(id);
-            return Ok(candidature);
+            if(candidature == null)
+                return NotFound();
+            else
+                return Ok(candidature);
         }
 
         [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
         [HttpGet("all")]
         public async Task<IActionResult> GetAllIds()
         {
-            CandidatureIdsModel ids = await _candidatureService.getAllIds();
-            return Ok(ids);
+            object candidatures = await _candidatureService.getAllIds();
+            return Ok(candidatures);
         }
 
         [HttpPost("update")]
         public IActionResult updateCandidature([FromBody] CandidatureModel model)
         {
-            Candidature candidature = _candidatureService.updateCandidature(model.id, model.candidature);
-            return Ok(candidature);
+            Candidature candidature = _candidatureService.updateCandidature(model.id, model.note);
+            if(candidature == null)
+                return NotFound();
+            else
+                return Ok(candidature);
         }
 
-        [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
-        [HttpPost("archive/{id}")]
-        public IActionResult archive(int id)
-        {
-            _candidatureService.archiveCandidature(id);
-            return Ok();
-        }
+        // [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
+        // [HttpPost("archive/{id}")]
+        // public IActionResult archive(int id)
+        // {
+        //     if(_candidatureService.archiveCandidature(id))  
+        //         return Ok();
+        //     else
+        //         return NotFound();
+        // }
 
         [HttpPost("justificative")]
         [Consumes("multipart/form-data")]

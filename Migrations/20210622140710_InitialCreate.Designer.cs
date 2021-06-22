@@ -8,7 +8,7 @@ using dot_net.Data;
 namespace dot_net.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210606122325_InitialCreate")]
+    [Migration("20210622140710_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,35 @@ namespace dot_net.Migrations
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.6");
+
+            modelBuilder.Entity("dot_net.Entities.Candidature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CandidateFirstName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CandidateLastName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CreatedDate")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("JsonContent")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RefrenceToken")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Candidatures");
+                });
 
             modelBuilder.Entity("dot_net.Entities.User", b =>
                 {

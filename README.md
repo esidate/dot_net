@@ -150,6 +150,12 @@ curl -X POST -u admin:admin -H "Content-Type: application/json" \
  -d '{ "Username" : "bruh", "FirstName" : "ayoo", "LastName" : "bruh", "test": "hey" }' http://localhost:5000/users/add
 ```
 
+Toggle evaluator Block
+
+```
+curl -X GET http://localhost:5000/users/evaluators/block/{id}
+```
+
 Add candidature
 
 ```
@@ -173,13 +179,7 @@ Update candidature
 
 ```
 curl -X POST -H "Content-Type: application/json" \
- -d '{ "id" : "1" , "candidature" : "{\"test\":\"test\",\"test\":\"test\"}" }' http://localhost:5000/candidature/update
-```
-
-Archive candidature
-
-```
- curl -X POST -u eval1:eval1 http://localhost:5000/candidature/archive/{id}
+ -d '{ "id" : "1" , "note" : "28.5" }' http://localhost:5000/candidature/update
 ```
 
 Upload justificative

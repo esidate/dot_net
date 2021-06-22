@@ -8,8 +8,8 @@ using dot_net.Data;
 namespace dot_net.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210621102334_addCandidatureTable")]
-    partial class addCandidatureTable
+    [Migration("20210622152021_addBlockedColumn")]
+    partial class addBlockedColumn
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,10 +24,22 @@ namespace dot_net.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Archived")
-                        .HasColumnType("int");
+                    b.Property<string>("CandidateFirstName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CandidateLastName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CreatedDate")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("JsonContent")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RefrenceToken")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -40,6 +52,9 @@ namespace dot_net.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<bool>("Blocked")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("longtext");

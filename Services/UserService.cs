@@ -14,6 +14,8 @@ namespace dot_net.Services
         Task<IEnumerable<User>> GetEvaluators();
         User GetById(int id);
         Task<User> AddEvaluator(User User);
+        bool toggleEvaluatorsBlock(int id);
+        string GeneratePassword(int length);
     }
 
     public class UserService : IUserService
@@ -28,7 +30,7 @@ namespace dot_net.Services
 
         public async Task<User> Authenticate(string username, string password)
         {
-            return await Task.Run(() => _dataContext.Users.SingleOrDefault(user => user.Username == username && user.Password == password));
+            return await Task.Run(() => _dataContext.Users.SingleOrDefault(user => user.Username == username && user.Password == password && user.Blocked == false ));
         }
 
         public User GetById(int id)
@@ -54,6 +56,18 @@ namespace dot_net.Services
             var addUser = await _dataContext.Users.AddAsync(User);
             _dataContext.SaveChanges();
             return addUser.Entity;
+        }
+
+        public bool toggleEvaluatorsBlock(int id)
+        {
+            User eval = _dataContext.Users.FirstOrDefault(user => user.Role == "Evaluator" && user.Id == id);
+            if(eval == null )
+                return false;
+            else{
+                eval.Blocked = !eval.Blocked;
+                _dataContext.SaveChanges();
+                return true;
+            }
         }
 
         public string GeneratePassword(int length)

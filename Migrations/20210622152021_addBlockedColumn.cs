@@ -2,23 +2,23 @@
 
 namespace dot_net.Migrations
 {
-    public partial class addCandidatureTable : Migration
+    public partial class addBlockedColumn : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "Archived",
-                table: "Candidatures",
-                type: "int",
+            migrationBuilder.AddColumn<bool>(
+                name: "Blocked",
+                table: "Users",
+                type: "tinyint(1)",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Archived",
-                table: "Candidatures");
+                name: "Blocked",
+                table: "Users");
         }
     }
 }
