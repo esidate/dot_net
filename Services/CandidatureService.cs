@@ -98,6 +98,7 @@ namespace dot_net.Services
                 c.CandidateFirstName,
                 c.RefrenceToken,
                 c.CreatedDate,
+                c.Note,
                 c.Validated
             }
             ).ToList());
@@ -115,6 +116,7 @@ namespace dot_net.Services
                 c.CandidateFirstName,
                 c.RefrenceToken,
                 c.CreatedDate,
+                c.Note,
                 c.Validated
             }
             ).ToList());
