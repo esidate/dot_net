@@ -150,6 +150,12 @@ curl -X POST -u admin:admin -H "Content-Type: application/json" \
  -d '{ "Username" : "bruh", "FirstName" : "ayoo", "LastName" : "bruh", "test": "hey" }' http://localhost:5000/users/add
 ```
 
+Toggle evaluator Block
+
+```
+curl -X GET http://localhost:5000/users/evaluators/block/{id}
+```
+
 Add candidature
 
 ```

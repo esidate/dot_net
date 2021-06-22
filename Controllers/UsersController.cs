@@ -67,5 +67,16 @@ namespace dot_net.Controllers
             var users = await _userService.GetEvaluators();
             return Ok(users);
         }
+
+        [Authorize(Policy = "RequireAdministratorRole")]
+        [HttpGet("evaluators/block/{id}")]
+        public IActionResult toggleEvaluatorsBlock(int id)
+        {
+            if(_userService.toggleEvaluatorsBlock(id))
+                return Ok();
+            else 
+                return NotFound();
+                
+        }
     }
 }

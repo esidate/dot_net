@@ -8,5 +8,6 @@ namespace dot_net.Entities
         public string LastName { get; set; }
         public string Role { get; set; }
         public string Password { get; set; }
+        public bool Blocked { get; set; }
     }
 }
