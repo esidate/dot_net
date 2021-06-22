@@ -40,6 +40,16 @@ namespace dot_net.Controllers
             else
                 return Ok(candidature);
         }
+        
+        [HttpGet("submitted")]
+        public IActionResult getByToken([FromQuery(Name = "token")] string token)
+        {
+            Candidature candidature = _candidatureService.getByToken(token);
+            if(candidature == null)
+                return NotFound();
+            else
+                return Ok(candidature);
+        }
 
         [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
         [HttpGet("all")]

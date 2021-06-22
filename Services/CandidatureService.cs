@@ -15,6 +15,7 @@ namespace dot_net.Services
         CandidatureModel addCandidature(string jsonContent);
         Candidature updateCandidature(int id, string note );
         Candidature getById(int id);
+        Candidature getByToken(string token);
         Task<object>  getAllIds();
     }
 
@@ -57,6 +58,15 @@ namespace dot_net.Services
         public Candidature getById(int id)
         {
             var candidature = _dataContext.Candidatures.FirstOrDefault(x => x.Id == id);
+            if(candidature == null)
+                return null;
+            else
+                return candidature;
+        }
+
+        public Candidature getByToken(string token)
+        {
+            var candidature = _dataContext.Candidatures.FirstOrDefault(x => x.RefrenceToken == token);
             if(candidature == null)
                 return null;
             else

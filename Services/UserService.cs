@@ -76,7 +76,7 @@ namespace dot_net.Services
             {
                 byte[] tokenBuffer = new byte[length];
                 cryptRNG.GetBytes(tokenBuffer);
-                return System.Convert.ToBase64String(tokenBuffer);
+                return System.Convert.ToBase64String(tokenBuffer).Replace('+','x').Replace('-','y').Replace('/','z').Replace('=','t');
             }
         }
     }
