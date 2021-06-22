@@ -14,6 +14,7 @@ namespace dot_net.Services
         Task<IEnumerable<User>> GetEvaluators();
         User GetById(int id);
         Task<User> AddEvaluator(User User);
+        string GeneratePassword(int length);
     }
 
     public class UserService : IUserService

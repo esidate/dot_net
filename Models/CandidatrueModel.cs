@@ -1,14 +1,15 @@
 using System.ComponentModel.DataAnnotations;
-
+using System;
 namespace dot_net.Models
 {
     public class CandidatureModel
     {
         public int id { get; set; }
-
-        [Required]
         public string candidature { get; set; }
-        
-        public int archived { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string refrenceToken { get; set; }
+        public string createdDate { get; set; }
+        public string note { get; set; }
     }
 }

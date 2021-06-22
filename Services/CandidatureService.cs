@@ -4,35 +4,54 @@ using System.Threading.Tasks;
 using dot_net.Entities;
 using dot_net.Data;
 using dot_net.Models;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 
 namespace dot_net.Services
 {
     public interface ICandidatureService
     {
-        void addCandidature(string jsonContent);
-        bool archiveCandidature(int id);
-        Candidature updateCandidature(int id, string candidatureJson);
+        CandidatureModel addCandidature(string jsonContent);
+        Candidature updateCandidature(int id, string note );
         Candidature getById(int id);
-        Task<CandidatureIdsModel> getAllIds();
+        Task<object>  getAllIds();
     }
 
     public class CandidatureService : ICandidatureService
     {
         private DataContext _dataContext;
-        public CandidatureService(DataContext datacontext)
+        private IUserService _userService;
+        public CandidatureService(IUserService userService,DataContext datacontext)
         {
             _dataContext = datacontext;
+            _userService = userService;
         }
 
-        public void addCandidature(string jsonContent)
+        public CandidatureModel addCandidature(string jsonContent)
         {
+            var candidatureBody = (JObject) JsonConvert.DeserializeObject(jsonContent);
+            string lastName = candidatureBody["donneesPersonnelles"]["nom"].Value<string>();
+            string firstName  = candidatureBody["donneesPersonnelles"]["prenom"].Value<string>();
+            string refrenceToken = _userService.GeneratePassword(10);
+            string creationDate = DateTime.Now.ToString("dd-MM-yyyy");
             Candidature candidature = new Candidature
             {
-                JsonContent = jsonContent
+                JsonContent = jsonContent,
+                CandidateLastName = lastName,
+                CandidateFirstName = firstName,
+                RefrenceToken = refrenceToken,
+                CreatedDate = creationDate
             };
             _dataContext.Candidatures.Add(candidature);
             _dataContext.SaveChanges();
+            return new CandidatureModel {
+                id = candidature.Id, 
+                lastName = lastName,
+                firstName = firstName,
+                refrenceToken = refrenceToken,
+                createdDate = creationDate
+            };
         }
 
         public Candidature getById(int id)
@@ -44,38 +63,33 @@ namespace dot_net.Services
                 return candidature;
         }
 
-        public Candidature updateCandidature(int id, string candidatureJson)
+        public Candidature updateCandidature(int id, string note)
         {
             Candidature candidature = _dataContext.Candidatures.Find(id);
             if(candidature == null)
                 return null;
             else{
-                candidature.JsonContent = candidatureJson;
+                candidature.Note = note;
                 _dataContext.SaveChanges();
                 return candidature;
             }
         }
 
-        public bool archiveCandidature(int id)
+       
+        public async Task<object> getAllIds()
         {
-            Candidature candidature = _dataContext.Candidatures.Find(id);
-            if(candidature == null)
-                return false;
-            else{
-                candidature.Archived = 1;
-                _dataContext.SaveChanges();
-                return true;
+            var candidatures = await Task.Run(() => 
+            _dataContext.Candidatures.Where(candid => candid.Note == null).Select(c => 
+            new {
+                c.Id,
+                c.CandidateLastName,
+                c.CandidateFirstName,
+                c.RefrenceToken,
+                c.CreatedDate
             }
-        }
+            ).ToList());
 
-        public async Task<CandidatureIdsModel> getAllIds()
-        {
-            IEnumerable<int> idsList = await Task.Run(() => _dataContext.Candidatures.Where(candid => candid.Archived == 0).Select(p => p.Id).ToList());
-            CandidatureIdsModel candidatureIds = new CandidatureIdsModel() 
-            {
-                ids = idsList
-            };
-            return candidatureIds;
+            return candidatures;
         }
 
     }
