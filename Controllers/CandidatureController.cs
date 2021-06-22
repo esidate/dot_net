@@ -77,21 +77,14 @@ namespace dot_net.Controllers
             var postedFile = Request.Form.Files["justificative"];
             if (postedFile != null)
             {
-                try
+                string fileExtension = Path.GetExtension(postedFile.FileName);
+                Guid guid = Guid.NewGuid();
+                string fileName = guid + fileExtension;
+                string filePath = Path.Combine(justificativesPath + fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    string fileExtension = Path.GetExtension(postedFile.FileName);
-                    Guid guid = Guid.NewGuid();
-                    string fileName = guid + fileExtension;
-                    string filePath = Path.Combine(justificativesPath + fileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await postedFile.CopyToAsync(stream);
-                        return Ok(fileName);
-                    }
-                }
-                catch
-                {
-                    return StatusCode(500);
+                    await postedFile.CopyToAsync(stream);
+                    return Ok(fileName);
                 }
             }
             return StatusCode(400);
@@ -102,23 +95,15 @@ namespace dot_net.Controllers
         public IActionResult deleteJustificative([FromBody] JustificativeModel model)
         {
             string filePath = Path.Combine(justificativesPath, model.fileName);
-            try
+            if (System.IO.File.Exists(filePath))
             {
-                if (System.IO.File.Exists(filePath))
-                {
-                    System.IO.File.Delete(filePath);
-                    return Ok();
-                }
-                else
-                {
-                    return StatusCode(400);
-                }
+                System.IO.File.Delete(filePath);
+                return Ok();
             }
-            catch
+            else
             {
-                return StatusCode(500);
+                return StatusCode(400);
             }
-
         }
     }
 }
