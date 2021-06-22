@@ -52,7 +52,7 @@ namespace dot_net.Controllers
 
         [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllIds()
+        public async Task<IActionResult> GetAll()
         {
             object candidatures = await _candidatureService.getAllIds();
             return Ok(candidatures);
@@ -61,7 +61,7 @@ namespace dot_net.Controllers
         [HttpPost("update")]
         public IActionResult updateCandidature([FromBody] CandidatureModel model)
         {
-            Candidature candidature = _candidatureService.updateCandidature(model.id, model.note);
+            Candidature candidature = _candidatureService.updateCandidature(model.id, model.note, model.validated);
             if(candidature == null)
                 return NotFound();
             else

@@ -10,5 +10,6 @@ namespace dot_net.Entities
         public string JsonContent { get; set; }
         public string Note { get; set; }
         public string CreatedDate { get; set; }
+        public int Validated { get; set; } // 0: pas encore traité, 1 non acceptée, 2 acceptée
     }
 }

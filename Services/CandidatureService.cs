@@ -13,7 +13,7 @@ namespace dot_net.Services
     public interface ICandidatureService
     {
         CandidatureModel addCandidature(string jsonContent);
-        Candidature updateCandidature(int id, string note );
+        Candidature updateCandidature(int id, string note ,int validated);
         Candidature getById(int id);
         Candidature getByToken(string token);
         Task<object>  getAllIds();
@@ -73,13 +73,14 @@ namespace dot_net.Services
                 return candidature;
         }
 
-        public Candidature updateCandidature(int id, string note)
+        public Candidature updateCandidature(int id, string note,int validated)
         {
             Candidature candidature = _dataContext.Candidatures.Find(id);
             if(candidature == null)
                 return null;
             else{
                 candidature.Note = note;
+                candidature.Validated = validated;
                 _dataContext.SaveChanges();
                 return candidature;
             }
@@ -95,7 +96,8 @@ namespace dot_net.Services
                 c.CandidateLastName,
                 c.CandidateFirstName,
                 c.RefrenceToken,
-                c.CreatedDate
+                c.CreatedDate,
+                c.Validated
             }
             ).ToList());
 
