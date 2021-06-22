@@ -112,7 +112,10 @@ Fill `appsettings.Development.json` with the appropriate env vars.
 Don't touch `appsettings.json`...  
 Run `dotnet tool install dotnet-ef` to install EF.  
 Run migrations with `dotnet ef database update`.  
-Run server with `dotnet run --environment "Development"`.
+Run server with `dotnet run --environment "Development"`.  
+Create Admin `insert into Users values (1, "admin", "admin", "admin", "Admin", "admin", 0);`.  
+Create Evaluator 1 `insert into Users values (2, "eval1", "eval1", "eval1", "Evaluator", "eval1", 0);`.  
+Create Evaluator 2 `insert into Users values (3, "eval2", "eval2", "eval2", "Evaluator", "eval2", 0);`.
 
 ### Test Routes
 

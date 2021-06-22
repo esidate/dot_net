@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using dot_net.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -94,10 +93,13 @@ namespace dot_net.Controllers
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await postedFile.CopyToAsync(stream);
-                    JustificativeModel justificative = new JustificativeModel {
+
+                    var response = new
+                    {
                         fileName = fileName
                     };
-                    return Ok(justificative);
+
+                    return Ok(response);
                 }
             }
             return StatusCode(400);
