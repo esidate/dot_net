@@ -84,7 +84,10 @@ namespace dot_net.Controllers
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await postedFile.CopyToAsync(stream);
-                    return Ok(fileName);
+                    JustificativeModel justificative = new JustificativeModel {
+                        fileName = fileName
+                    };
+                    return Ok(justificative);
                 }
             }
             return StatusCode(400);
