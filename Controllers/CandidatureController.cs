@@ -51,10 +51,18 @@ namespace dot_net.Controllers
         }
 
         [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("untreated")]
+        public async Task<IActionResult> getUntreatedCandidatures()
         {
-            object candidatures = await _candidatureService.getAllIds();
+            object candidatures = await _candidatureService.getUntreatedCandidatures();
+            return Ok(candidatures);
+        }
+
+        [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
+        [HttpGet("treated")]
+        public async Task<IActionResult> getTreatedCandidatures()
+        {
+            object candidatures = await _candidatureService.getTreatedCandidatures();
             return Ok(candidatures);
         }
 
@@ -67,16 +75,6 @@ namespace dot_net.Controllers
             else
                 return Ok(candidature);
         }
-
-        // [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
-        // [HttpPost("archive/{id}")]
-        // public IActionResult archive(int id)
-        // {
-        //     if(_candidatureService.archiveCandidature(id))  
-        //         return Ok();
-        //     else
-        //         return NotFound();
-        // }
 
         [HttpPost("justificative")]
         [Consumes("multipart/form-data")]

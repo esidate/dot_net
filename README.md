@@ -172,10 +172,22 @@ Get candidature by id
 curl http://localhost:5000/candidature/{id}
 ```
 
-Get all candidature ids
+Get candidature by token
 
 ```
-curl http://localhost:5000/candidature/all
+curl http://localhost:5000/candidature/submitted?token=TOKEN
+```
+
+Get treated candidatures
+
+```
+curl http://localhost:5000/candidature/treated
+```
+
+Get untreated candidatures
+
+```
+curl http://localhost:5000/candidature/treated
 ```
 
 Update candidature

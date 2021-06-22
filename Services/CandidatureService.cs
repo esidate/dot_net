@@ -16,7 +16,8 @@ namespace dot_net.Services
         Candidature updateCandidature(int id, string note ,int validated);
         Candidature getById(int id);
         Candidature getByToken(string token);
-        Task<object>  getAllIds();
+        Task<object>  getUntreatedCandidatures();
+        Task<object>  getTreatedCandidatures();
     }
 
     public class CandidatureService : ICandidatureService
@@ -87,10 +88,27 @@ namespace dot_net.Services
         }
 
        
-        public async Task<object> getAllIds()
+        public async Task<object> getTreatedCandidatures()
         {
             var candidatures = await Task.Run(() => 
-            _dataContext.Candidatures.Where(candid => candid.Note == null).Select(c => 
+            _dataContext.Candidatures.Where(candid => candid.Validated != 0).Select(c => 
+            new {
+                c.Id,
+                c.CandidateLastName,
+                c.CandidateFirstName,
+                c.RefrenceToken,
+                c.CreatedDate,
+                c.Validated
+            }
+            ).ToList());
+
+            return candidatures;
+        }
+
+        public async Task<object> getUntreatedCandidatures()
+        {
+            var candidatures = await Task.Run(() => 
+            _dataContext.Candidatures.Where(candid => candid.Validated == 0).Select(c => 
             new {
                 c.Id,
                 c.CandidateLastName,
