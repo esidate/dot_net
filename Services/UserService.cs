@@ -30,7 +30,7 @@ namespace dot_net.Services
 
         public async Task<User> Authenticate(string username, string password)
         {
-            return await Task.Run(() => _dataContext.Users.SingleOrDefault(user => user.Username == username && user.Password == password));
+            return await Task.Run(() => _dataContext.Users.SingleOrDefault(user => user.Username == username && user.Password == password && user.Blocked == false ));
         }
 
         public User GetById(int id)
