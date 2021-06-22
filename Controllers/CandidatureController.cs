@@ -35,7 +35,10 @@ namespace dot_net.Controllers
         public IActionResult getById(int id)
         {
             Candidature candidature = _candidatureService.getById(id);
-            return Ok(candidature);
+            if(candidature == null)
+                return NotFound();
+            else
+                return Ok(candidature);
         }
 
         [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
@@ -50,15 +53,20 @@ namespace dot_net.Controllers
         public IActionResult updateCandidature([FromBody] CandidatureModel model)
         {
             Candidature candidature = _candidatureService.updateCandidature(model.id, model.candidature);
-            return Ok(candidature);
+            if(candidature == null)
+                return NotFound();
+            else
+                return Ok(candidature);
         }
 
         [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
         [HttpPost("archive/{id}")]
         public IActionResult archive(int id)
         {
-            _candidatureService.archiveCandidature(id);
-            return Ok();
+            if(_candidatureService.archiveCandidature(id))  
+                return Ok();
+            else
+                return NotFound();
         }
 
         [HttpPost("justificative")]
