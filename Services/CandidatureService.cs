@@ -35,6 +35,8 @@ namespace dot_net.Services
             var candidatureBody = (JObject) JsonConvert.DeserializeObject(jsonContent);
             string lastName = candidatureBody["donneesPersonnelles"]["nom"].Value<string>();
             string firstName  = candidatureBody["donneesPersonnelles"]["prenom"].Value<string>();
+            string grade  = candidatureBody["donneesPersonnelles"]["grade"]["name"].Value<string>();
+            string passage  = candidatureBody["passageCadreGrade"]["cadreGrade"].Value<string>();
             string refrenceToken = _userService.GeneratePassword(10);
             string creationDate = DateTime.Now.ToString("dd-MM-yyyy");
             Candidature candidature = new Candidature
@@ -43,6 +45,8 @@ namespace dot_net.Services
                 CandidateLastName = lastName,
                 CandidateFirstName = firstName,
                 RefrenceToken = refrenceToken,
+                Passage = passage ,
+                Grade = grade,
                 CreatedDate = creationDate
             };
             _dataContext.Candidatures.Add(candidature);
@@ -52,6 +56,8 @@ namespace dot_net.Services
                 lastName = lastName,
                 firstName = firstName,
                 refrenceToken = refrenceToken,
+                grade = grade,
+                passage = passage,
                 createdDate = creationDate
             };
         }
@@ -90,19 +96,20 @@ namespace dot_net.Services
        
         public async Task<object> getTreatedCandidatures()
         {
-            var candidatures = await Task.Run(() => 
-            _dataContext.Candidatures.Where(candid => candid.Validated != 0).Select(c => 
+         var candidatures = await Task.Run(() => 
+            _dataContext.Candidatures.OrderByDescending(candid => candid.Note ).Where(candid => candid.Validated != 0).Select(c => 
             new {
                 c.Id,
                 c.CandidateLastName,
                 c.CandidateFirstName,
                 c.RefrenceToken,
+                c.Grade,
+                c.Passage,
                 c.CreatedDate,
                 c.Note,
                 c.Validated
             }
             ).ToList());
-
             return candidatures;
         }
 
@@ -115,6 +122,8 @@ namespace dot_net.Services
                 c.CandidateLastName,
                 c.CandidateFirstName,
                 c.RefrenceToken,
+                c.Grade,
+                c.Passage,
                 c.CreatedDate,
                 c.Note,
                 c.Validated
