@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  mysql_db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: dot_net
+      MYSQL_DATABASE: dot_net
+      MYSQL_USER: dot_net
+      MYSQL_PASSWORD: dot_net
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./mysql-dump:/docker-entrypoint-initdb.d
+
+  dot_net_backend:
+    container_name: dot_net_backend
+    build: .
+    depends_on:
+      - mysql_db
+    links:
+      - mysql_db
+
+  dot_net_frontend:
+    container_name: dot_net_frontend
+    build:
+      context: ./dot_net_angular
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+    links:
+      - dot_net_backend
+      - dot_net_frontend
+
+volumes:
+  mysql:

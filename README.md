@@ -119,7 +119,6 @@ Create Evaluator 2 `insert into Users values (3, "eval2", "eval2", "eval2", "Eva
 
 ### Test Routes
 
-`curl --user test:test http://localhost:5000/users`
 
 Authentication
 

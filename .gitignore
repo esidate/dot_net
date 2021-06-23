@@ -41,3 +41,4 @@ appsettings.Development.json
 
 wwwroot/justificatives/*
 !wwwroot/justificatives/.gitkeep
+mysql
