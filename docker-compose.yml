@@ -26,7 +26,6 @@ services:
     container_name: dot_net_frontend
     build:
       context: ./dot_net_angular
-      dockerfile: Dockerfile.ng
 
   nginx:
     image: nginx
