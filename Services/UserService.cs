@@ -14,6 +14,7 @@ namespace dot_net.Services
         Task<IEnumerable<User>> GetEvaluators();
         User GetById(int id);
         Task<User> AddEvaluator(User User);
+        void AddUser(User User);
         bool toggleEvaluatorsBlock(int id);
         string GeneratePassword(int length);
     }
@@ -30,7 +31,15 @@ namespace dot_net.Services
 
         public async Task<User> Authenticate(string username, string password)
         {
-            return await Task.Run(() => _dataContext.Users.SingleOrDefault(user => user.Username == username && user.Password == password && user.Blocked == false ));
+            var user = _dataContext.Users.FirstOrDefault(user => user.Username == username && user.Blocked == false);
+            bool verified = BCrypt.Net.BCrypt.Verify(password, user.Password);
+            if (verified)
+            {
+                user.Password = password;
+                return await Task.Run(() => user);
+            }
+            else
+                return null;
         }
 
         public User GetById(int id)
@@ -51,19 +60,30 @@ namespace dot_net.Services
 
         public async Task<User> AddEvaluator(User User)
         {
-            User.Role = "Evaluator";
-            User.Password = GeneratePassword(10);
-            var addUser = await _dataContext.Users.AddAsync(User);
-            _dataContext.SaveChanges();
-            return addUser.Entity;
+            var user = _dataContext.Users.FirstOrDefault(user => User.Username == user.Username);
+
+            if (user == null)
+            {
+                User.Role = "Evaluator";
+                var password = GeneratePassword(10);
+                User.Password = BCrypt.Net.BCrypt.HashPassword(password);
+                var addUser = await _dataContext.Users.AddAsync(User);
+                _dataContext.SaveChanges();
+                var userEntity = addUser.Entity;
+                userEntity.Password = password; // Return plain text password (temporary password aka token)
+                return userEntity;
+            }
+            else
+                return null;
         }
 
         public bool toggleEvaluatorsBlock(int id)
         {
             User eval = _dataContext.Users.FirstOrDefault(user => user.Role == "Evaluator" && user.Id == id);
-            if(eval == null )
+            if (eval == null)
                 return false;
-            else{
+            else
+            {
                 eval.Blocked = !eval.Blocked;
                 _dataContext.SaveChanges();
                 return true;
@@ -76,8 +96,16 @@ namespace dot_net.Services
             {
                 byte[] tokenBuffer = new byte[length];
                 cryptRNG.GetBytes(tokenBuffer);
-                return System.Convert.ToBase64String(tokenBuffer).Replace('+','x').Replace('-','y').Replace('/','z').Replace('=','t');
+                return System.Convert.ToBase64String(tokenBuffer).Replace('+', 'x').Replace('-', 'y').Replace('/', 'z').Replace('=', 't');
             }
+        }
+
+        public async void AddUser(User User)
+        {
+            var password = User.Password;
+            User.Password = BCrypt.Net.BCrypt.HashPassword(password);
+            var addUser = await _dataContext.Users.AddAsync(User);
+            _dataContext.SaveChanges();
         }
     }
 }

@@ -5,6 +5,7 @@ using dot_net.Models;
 using dot_net.Services;
 using dot_net.Data;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace dot_net.Controllers
 {
@@ -37,7 +38,10 @@ namespace dot_net.Controllers
         public async Task<IActionResult> AddEvaluator([FromBody] User User)
         {
             var userEntity = await _userService.AddEvaluator(User);
-            return Ok(userEntity);
+            if (userEntity == null)
+                return BadRequest(new { message = "nom d'utilisateur déjà utilisé" });
+            else
+                return Ok(userEntity);
         }
 
         [Authorize(Policy = "RequireAdministratorRole")]
@@ -72,11 +76,23 @@ namespace dot_net.Controllers
         [HttpGet("evaluators/block/{id}")]
         public IActionResult toggleEvaluatorsBlock(int id)
         {
-            if(_userService.toggleEvaluatorsBlock(id))
+            if (_userService.toggleEvaluatorsBlock(id))
                 return Ok();
-            else 
+            else
                 return NotFound();
-                
+
+        }
+
+        [HttpGet("seed")]
+        public void seedUsers()
+        {
+            var userFound = _userService.GetById(1);
+
+            if (userFound == null)
+            {
+                var user = new User { Id = 1, Username = Environment.GetEnvironmentVariable("ADMIN_USERNAME"), FirstName = Environment.GetEnvironmentVariable("ADMIN_FIRSTNAME"), LastName = Environment.GetEnvironmentVariable("ADMIN_LASTNAME"), Role = "Admin", Password = Environment.GetEnvironmentVariable("ADMIN_PASSWORD"), Blocked = false };
+                _userService.AddUser(user);
+            }
         }
     }
 }

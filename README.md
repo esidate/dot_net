@@ -113,12 +113,9 @@ Don't touch `appsettings.json`...
 Run `dotnet tool install dotnet-ef` to install EF.  
 Run migrations with `dotnet ef database update`.  
 Run server with `dotnet run --environment "Development"`.  
-Create Admin `insert into Users values (1, "admin", "admin", "admin", "Admin", "admin", 0);`.  
-Create Evaluator 1 `insert into Users values (2, "eval1", "eval1", "eval1", "Evaluator", "eval1", 0);`.  
-Create Evaluator 2 `insert into Users values (3, "eval2", "eval2", "eval2", "Evaluator", "eval2", 0);`.
+Add environment variables `export ADMIN_USERNAME=admin ADMIN_FIRSTNAME=fname ADMIN_LASTNAME=lname ADMIN_PASSWORD=admin`, and hit `/users/seed` to seed admin in database.
 
 ### Test Routes
-
 
 Authentication
 
