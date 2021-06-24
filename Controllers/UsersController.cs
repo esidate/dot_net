@@ -64,7 +64,7 @@ namespace dot_net.Controllers
             return Ok(user);
         }
 
-        // [Authorize(Policy = "RequireAdministratorRole")]
+        [Authorize(Policy = "RequireAdministratorRole")]
         [HttpGet("evaluators")]
         public async Task<IActionResult> GetEvaluators()
         {

@@ -49,7 +49,7 @@ namespace dot_net.Controllers
                 return Ok(candidature);
         }
 
-        // [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
+        [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
         [HttpGet("untreated")]
         public async Task<IActionResult> getUntreatedCandidatures()
         {
@@ -57,7 +57,7 @@ namespace dot_net.Controllers
             return Ok(candidatures);
         }
 
-        // [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
+        [Authorize(Policy = "RequireAdminOrEvaluatorRole")]
         [HttpGet("treated")]
         public async Task<IActionResult> getTreatedCandidatures()
         {
