@@ -5,7 +5,6 @@ using dot_net.Entities;
 using dot_net.Data;
 using dot_net.Helpers;
 using dot_net.Models;
-
 namespace dot_net.Services
 {
     public interface IUserService
@@ -18,7 +17,7 @@ namespace dot_net.Services
         void AddUser(User User);
         bool toggleEvaluatorsBlock(int id);
         string GeneratePassword(int length);
-        User modifyUser(ModifyUserModel model);
+        int modifyUser(ModifyUserModel model);
     }
 
     public class UserService : IUserService
@@ -83,7 +82,7 @@ namespace dot_net.Services
                 return null;
         }
 
-        public User modifyUser(ModifyUserModel model){
+        public int modifyUser(ModifyUserModel model){
             var user = _dataContext.Users.FirstOrDefault(user => user.Username == model.username);
 
             if (user != null){
@@ -93,13 +92,13 @@ namespace dot_net.Services
                     user.Password = BCrypt.Net.BCrypt.HashPassword(model.newPassword);
                     user.Role = "Evaluator";
                     _dataContext.SaveChanges();
-                    return user;
+                    return 2;
                 }
                 else
-                    return null;
+                    return 1;
             }
             else
-                return null;
+                return 0;
         }
 
         public bool toggleEvaluatorsBlock(int id)

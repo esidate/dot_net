@@ -39,7 +39,7 @@ namespace dot_net.Controllers
         {
             var userEntity = await _userService.AddEvaluator(User);
             if (userEntity == null)
-                return BadRequest(new { message = "nom d'utilisateur déjà utilisé" });
+                return BadRequest(new { message = "Nom d'utilisateur déjà utilisé" });
             else
                 return Ok(userEntity);
         }
@@ -48,11 +48,17 @@ namespace dot_net.Controllers
         [HttpPost("modify")]
         public IActionResult modifyUser([FromBody] ModifyUserModel model)
         {
-            var userEntity = _userService.modifyUser(model);
-            if (userEntity == null)
-                return BadRequest(new { message = "nom d'utilisateur déjà utilisé" });
-            else
-                return Ok(userEntity);
+            var res = _userService.modifyUser(model);
+            switch(res){
+                case 0 : 
+                    return BadRequest(new { message = "Compte introuvable" });
+                case 1:
+                    return BadRequest(new { message = "Nom d'utilisateur déjà utilisé" });
+                case 2:
+                    return Ok();
+            }
+            return BadRequest();
+
         }
 
         [Authorize(Policy = "RequireAdministratorRole")]
