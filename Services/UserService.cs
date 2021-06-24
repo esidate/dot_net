@@ -32,7 +32,11 @@ namespace dot_net.Services
         public async Task<User> Authenticate(string username, string password)
         {
             var user = _dataContext.Users.FirstOrDefault(user => user.Username == username && user.Blocked == false);
-            bool verified = BCrypt.Net.BCrypt.Verify(password, user.Password);
+
+            if (user == null)
+                return null;
+
+            var verified = BCrypt.Net.BCrypt.Verify(password, user.Password);
             if (verified)
             {
                 user.Password = password;

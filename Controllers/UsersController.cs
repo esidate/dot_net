@@ -84,15 +84,25 @@ namespace dot_net.Controllers
         }
 
         [HttpGet("seed")]
-        public void seedUsers()
+        public string seedUsers()
         {
             var userFound = _userService.GetById(1);
 
             if (userFound == null)
             {
-                var user = new User { Id = 1, Username = Environment.GetEnvironmentVariable("ADMIN_USERNAME"), FirstName = Environment.GetEnvironmentVariable("ADMIN_FIRSTNAME"), LastName = Environment.GetEnvironmentVariable("ADMIN_LASTNAME"), Role = "Admin", Password = Environment.GetEnvironmentVariable("ADMIN_PASSWORD"), Blocked = false };
-                _userService.AddUser(user);
+                var username = Environment.GetEnvironmentVariable("ADMIN_USERNAME");
+                var firstname = Environment.GetEnvironmentVariable("ADMIN_FIRSTNAME");
+                var lastname = Environment.GetEnvironmentVariable("ADMIN_LASTNAME");
+                var password = Environment.GetEnvironmentVariable("ADMIN_PASSWORD");
+                if (username != null && password != null)
+                {
+                    var user = new User { Id = 1, Username = username, FirstName = firstname, LastName = lastname, Role = "Admin", Password = password, Blocked = false };
+                    _userService.AddUser(user);
+                    return "1";
+                }
+                return "-1";
             }
+            return "0";
         }
     }
 }

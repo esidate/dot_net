@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using dot_net.Entities;
 using dot_net.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dot_net.Controllers
 {
@@ -33,17 +34,17 @@ namespace dot_net.Controllers
         public IActionResult getById(int id)
         {
             Candidature candidature = _candidatureService.getById(id);
-            if(candidature == null)
+            if (candidature == null)
                 return NotFound();
             else
                 return Ok(candidature);
         }
-        
+
         [HttpGet("submitted")]
         public IActionResult getByToken([FromQuery(Name = "token")] string token)
         {
             Candidature candidature = _candidatureService.getByToken(token);
-            if(candidature == null)
+            if (candidature == null)
                 return NotFound();
             else
                 return Ok(candidature);
@@ -69,7 +70,7 @@ namespace dot_net.Controllers
         public IActionResult updateCandidature([FromBody] CandidatureModel model)
         {
             Candidature candidature = _candidatureService.updateCandidature(model.id, model.note, model.validated);
-            if(candidature == null)
+            if (candidature == null)
                 return NotFound();
             else
                 return Ok(candidature);
