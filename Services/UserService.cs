@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using dot_net.Entities;
 using dot_net.Data;
 using dot_net.Helpers;
+using dot_net.Models;
 
 namespace dot_net.Services
 {
@@ -17,6 +18,7 @@ namespace dot_net.Services
         void AddUser(User User);
         bool toggleEvaluatorsBlock(int id);
         string GeneratePassword(int length);
+        User modifyUser(ModifyUserModel model);
     }
 
     public class UserService : IUserService
@@ -68,7 +70,7 @@ namespace dot_net.Services
 
             if (user == null)
             {
-                User.Role = "Evaluator";
+                // User.Role = "Evaluator";
                 var password = GeneratePassword(10);
                 User.Password = BCrypt.Net.BCrypt.HashPassword(password);
                 var addUser = await _dataContext.Users.AddAsync(User);
@@ -76,6 +78,25 @@ namespace dot_net.Services
                 var userEntity = addUser.Entity;
                 userEntity.Password = password; // Return plain text password (temporary password aka token)
                 return userEntity;
+            }
+            else
+                return null;
+        }
+
+        public User modifyUser(ModifyUserModel model){
+            var user = _dataContext.Users.FirstOrDefault(user => user.Username == model.username);
+
+            if (user != null){
+                if(_dataContext.Users.FirstOrDefault(u => u.Username == model.newUsername && model.username != model.newUsername) == null)
+                {
+                    user.Username = model.newUsername;
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(model.newPassword);
+                    user.Role = "Evaluator";
+                    _dataContext.SaveChanges();
+                    return user;
+                }
+                else
+                    return null;
             }
             else
                 return null;

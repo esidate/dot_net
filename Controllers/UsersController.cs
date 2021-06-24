@@ -9,7 +9,7 @@ using System;
 
 namespace dot_net.Controllers
 {
-
+    [AllowAnonymous]
     [ApiController]
     [Route("[controller]")]
     [Consumes("application/json")]
@@ -38,6 +38,17 @@ namespace dot_net.Controllers
         public async Task<IActionResult> AddEvaluator([FromBody] User User)
         {
             var userEntity = await _userService.AddEvaluator(User);
+            if (userEntity == null)
+                return BadRequest(new { message = "nom d'utilisateur déjà utilisé" });
+            else
+                return Ok(userEntity);
+        }
+
+        [Authorize]
+        [HttpPost("modify")]
+        public IActionResult modifyUser([FromBody] ModifyUserModel model)
+        {
+            var userEntity = _userService.modifyUser(model);
             if (userEntity == null)
                 return BadRequest(new { message = "nom d'utilisateur déjà utilisé" });
             else
