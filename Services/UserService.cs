@@ -39,7 +39,7 @@ namespace dot_net.Services
             var verified = BCrypt.Net.BCrypt.Verify(password, user.Password);
             if (verified)
             {
-                user.Password = password;
+                var userData = new User { Username = user.Username, FirstName = user.FirstName, LastName = user.LastName, Password = user.Password };
                 return await Task.Run(() => user);
             }
             else
@@ -108,7 +108,7 @@ namespace dot_net.Services
         {
             var password = User.Password;
             User.Password = BCrypt.Net.BCrypt.HashPassword(password);
-            var addUser = await _dataContext.Users.AddAsync(User);
+            await _dataContext.Users.AddAsync(User);
             _dataContext.SaveChanges();
         }
     }
