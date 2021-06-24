@@ -149,6 +149,15 @@ curl -X POST -u admin:admin -H "Content-Type: application/json" \
  -d '{ "Username" : "bruh", "FirstName" : "ayoo", "LastName" : "bruh", "test": "hey" }' http://localhost:5000/users/add
 ```
 
+Modify account
+
+```
+curl --request POST \
+  --url http://localhost:5000/users/modify  --header 'Content-Type: application/json' \
+  --data '{"username" : "currentUsername", "newUsername" : "newUsername", "newPassword" : "newPassword"
+}'
+```
+
 Toggle evaluator Block
 
 ```
