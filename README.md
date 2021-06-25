@@ -220,4 +220,5 @@ curl -X DELETE http://localhost:5000/candidature/justificative \
 
 > Note : this is not complete
 
-Export db (temporary solution for a problem), `sudo mysqldump -u root -p dot_net > mysql-dump/db-dump.sql`
+Export db (temporary solution for a problem), `sudo mysqldump -u root -p dot_net > mysql-dump/db-dump.sql`.  
+Import db, `mysql -udot_net -pdot_net dot_net < docker-entrypoint-initdb.d/db-dump.sql`.
