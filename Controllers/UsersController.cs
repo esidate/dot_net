@@ -9,7 +9,6 @@ using System;
 
 namespace dot_net.Controllers
 {
-    [AllowAnonymous]
     [ApiController]
     [Route("[controller]")]
     [Consumes("application/json")]

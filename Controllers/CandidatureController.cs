@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace dot_net.Controllers
 {
-    [AllowAnonymous]
     [ApiController]
     [Route("[controller]")]
     [Consumes("application/json")]
