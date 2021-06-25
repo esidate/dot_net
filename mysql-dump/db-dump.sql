@@ -19,8 +19,6 @@
 -- Table structure for table `Candidatures`
 --
 
-use dot_net;
-
 DROP TABLE IF EXISTS `Candidatures`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -33,6 +31,8 @@ CREATE TABLE `Candidatures` (
   `Note` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `CreatedDate` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `Validated` int NOT NULL DEFAULT '0',
+  `Grade` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `Passage` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -94,7 +94,7 @@ CREATE TABLE `__EFMigrationsHistory` (
 
 LOCK TABLES `__EFMigrationsHistory` WRITE;
 /*!40000 ALTER TABLE `__EFMigrationsHistory` DISABLE KEYS */;
-INSERT INTO `__EFMigrationsHistory` VALUES ('20210622140710_InitialCreate','5.0.6'),('20210622152021_addBlockedColumn','5.0.6'),('20210622220804_addValidatedComlumn','5.0.6');
+INSERT INTO `__EFMigrationsHistory` VALUES ('20210622140710_InitialCreate','5.0.6'),('20210622152021_addBlockedColumn','5.0.6'),('20210622220804_addValidatedComlumn','5.0.6'),('20210623152601_addGradePassageColumns','5.0.6');
 /*!40000 ALTER TABLE `__EFMigrationsHistory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -107,4 +107,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-23 16:46:02
+-- Dump completed on 2021-06-25 16:20:38

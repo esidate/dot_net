@@ -215,3 +215,9 @@ Delete justificative
 curl -X DELETE http://localhost:5000/candidature/justificative \
     -H 'Content-Type: application/json' -d '{"fileName": "FILE_NAME"}'
 ```
+
+### Deployment
+
+> Note : this is not complete
+
+Export db (temporary solution for a problem), `sudo mysqldump -u root -p dot_net > mysql-dump/db-dump.sql`
